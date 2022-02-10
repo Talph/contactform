@@ -24,7 +24,10 @@ class ContactController extends Controller
     //
     public function index(Request $request)
     {
+        $query = $this->contact->orderBy('name', 'asc');
+        $contacts = $query->paginate($request->per_page);
 
+        return ContactsResource::collection($contacts);
     }
 
     public function create()
