@@ -28519,7 +28519,7 @@ var render = function () {
                 staticClass: "col-md-4 col-form-label ",
                 attrs: { for: "name" },
               },
-              [_vm._v("Email Address")]
+              [_vm._v("Name")]
             ),
             _vm._v(" "),
             _c("input", {

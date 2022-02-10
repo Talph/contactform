@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <label for="name" class="col-md-4 col-form-label ">Email Address</label>
+                    <label for="name" class="col-md-4 col-form-label ">Name</label>
                     <input id="name" type="text" class="form-control" v-model="fields.name" name="name" required
                         autocomplete="name" autofocus>
 
@@ -110,10 +110,8 @@ export default {
       axios
         .post("/api/contacts", this.fields)
         .then((response) => {
-          // console.log(response.data.code);
           this.status = response.data.status;
           this.code = response.data.code;
-          // console.log(this.status, this.code);
           this.loading = false;
           this.fields = {};
         })
@@ -121,7 +119,6 @@ export default {
           if (error.response.status === 422) {
             this.errors = error.response.data.errors || {};
           }
-          // console.log(this.errors);
           this.loading = false;
         });
     },
