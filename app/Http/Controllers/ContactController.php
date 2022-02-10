@@ -33,7 +33,26 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:64',
+            'email' => 'required|email',
+        ]);
 
+        $contact = Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'content' => $request->content
+        ]);
+
+        if ($contact) {
+            $data = [
+                'status' => 'Contact form has been submitted successfully',
+                "code" => 200
+            ];
+        }
+
+        return response()->json($data);
     }
 
     public function edit($id)
