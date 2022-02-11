@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Resources\ContactsResource;
+use App\Mail\ContactMail;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -40,17 +44,29 @@ class ContactController extends Controller
             'email' => 'required|email',
         ]);
 
-        $contact = Contact::create([
+        $data = array([
             'name' => $request->name,
             'email' => $request->email,
             'gender' => $request->gender,
-            'content' => $request->content
+            'content' => $request->content,
+            "created_at" => Carbon::now(), 
+            "updated_at" => now()
         ]);
+
+        $contact = DB::table('contacts')->insert($data, true);
+
+        //To use the mailer set up the mail mailer in your env file first.
+        Mail::send(new ContactMail($data));
 
         if ($contact) {
             $data = [
                 'status' => 'Contact form has been submitted successfully',
                 "code" => 200
+            ];
+        }else{
+            $data = [
+                'status' => 'Oops something went wrong please try again later',
+                "code" => 401
             ];
         }
 
