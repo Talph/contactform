@@ -5510,17 +5510,14 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.errors = {};
       axios.post("/api/contacts", this.fields).then(function (response) {
-        // console.log(response.data.code);
         _this.status = response.data.status;
-        _this.code = response.data.code; // console.log(this.status, this.code);
-
+        _this.code = response.data.code;
         _this.loading = false;
         _this.fields = {};
       })["catch"](function (error) {
         if (error.response.status === 422) {
           _this.errors = error.response.data.errors || {};
-        } // console.log(this.errors);
-
+        }
 
         _this.loading = false;
       });
@@ -28501,14 +28498,23 @@ var render = function () {
       _c("form", { attrs: { method: "POST" } }, [
         _c("div", { staticClass: "row mb-3" }, [
           _c("div", { staticClass: "col-md-12" }, [
-            _vm.status && _vm.code == 200
-              ? _c("div", { staticClass: "alert alert-success" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(_vm.status) +
-                      "\n                    "
-                  ),
-                ])
+            _vm.status.length
+              ? _c(
+                  "div",
+                  {
+                    class:
+                      _vm.status.code != 200
+                        ? "alert alert-danger"
+                        : "alert alert-success",
+                  },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.status) +
+                        "\n                    "
+                    ),
+                  ]
+                )
               : _vm._e(),
           ]),
           _vm._v(" "),

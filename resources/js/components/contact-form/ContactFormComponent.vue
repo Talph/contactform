@@ -9,7 +9,7 @@
         <form method="POST">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <div v-if="status && code == 200" class="alert alert-success">
+                    <div v-if="status.length" :class="status.code != 200 ? 'alert alert-danger' : 'alert alert-success'">
                         {{ status }}
                     </div>
                 </div>

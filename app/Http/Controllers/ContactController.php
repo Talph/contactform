@@ -53,22 +53,25 @@ class ContactController extends Controller
             "updated_at" => now()
         ]);
 
-        $contact = DB::table('contacts')->insert($data, true);
+        try{
+            $contact = DB::table('contacts')->insert($data, true);
 
-        //To use the mailer set up the mail mailer in your env file first.
-        Mail::send(new ContactMail($data));
-
-        if ($contact) {
+            //To use the mailer set up the mail mailer in your env file first.
+            // Mail::send(new ContactMail($data));
+            
+            if ($contact) {
+                $data = [
+                    'status' => 'Contact form has been submitted successfully',
+                    "code" => 200
+                ];
+            }
+        }catch(\Exception $e){
             $data = [
-                'status' => 'Contact form has been submitted successfully',
-                "code" => 200
-            ];
-        }else{
-            $data = [
-                'status' => 'Oops something went wrong please try again later',
-                "code" => 401
+                'status' => 'Oops something went wrong please try again later. '. $e->getMessage(),
+                "code" => 503
             ];
         }
+
 
         return response()->json($data);
     }
